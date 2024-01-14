@@ -1,8 +1,8 @@
 const chalk = require("chalk");
 const Note = require("./models/Note");
 
-async function addNote(title, Owner) {
-  await Note.create({ title, Owner });
+async function addNote(fio, numberPhone, title, Owner) {
+  await Note.create({ fio, numberPhone, title, Owner });
 
   console.log(chalk.bgGreen("Note was added!"));
 }
@@ -21,7 +21,12 @@ async function removeNote(id, owner) {
 async function updateNote(noteData, owner) {
   const result = await Note.updateOne(
     { _id: noteData.id, Owner: owner },
-    { title: noteData.title }
+    {
+      fio: noteData.fio,
+      numberPhone: noteData.numberPhone,
+      title: noteData.title,
+      Owner: owner,
+    }
   );
   if (result.matchedCount === 0) {
     throw new Error("No note to edit");

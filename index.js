@@ -86,9 +86,8 @@ app.use(auth);
 
 app.get("/", async (req, res) => {
   res.render("index", {
-    title: "Express App",
-    notes: await getNotes(),
-    userEmail: req.user.email,
+    title: "Запись к врачу",
+    // notes: await getNotes(),
     created: false,
     error: false,
   });
@@ -96,31 +95,54 @@ app.get("/", async (req, res) => {
 
 app.post("/", async (req, res) => {
   try {
-    await addNote(req.body.title, req.user.email);
+    await addNote(
+      req.body.fio,
+      req.body.numberPhone,
+      req.body.title,
+      req.user.email
+    );
     res.render("index", {
-      title: "Express App",
-      notes: await getNotes(),
-      userEmail: req.user.email,
+      title: "Запись к врачу",
+      // notes: await getNotes(),
       created: true,
       error: false,
     });
   } catch (e) {
     console.error("Creation error", e);
     res.render("index", {
-      title: "Express App",
-      notes: await getNotes(),
-      userEmail: req.user.email,
+      title: "Запись к врачу",
+      // notes: await getNotes(),
       created: false,
-      error: true,
+      error: e.message,
     });
   }
 });
 
-app.delete("/:id", async (req, res) => {
+app.get("/applicationTable", async (req, res) => {
+  res.render("applicationTable", {
+    title: "Таблица заявок",
+    // notes: await getNotes(),
+    // created: false,
+    // error: false,
+  });
+});
+
+app.get("/applicationTable/:id", async (req, res) => {
+  console.log(chalk.magenta("GET"));
+  if (req.params.id === "all") {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(JSON.stringify(await getNotes()));
+  } else {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(JSON.stringify(await getNoteById(req.params.id)));
+  }
+});
+
+app.delete("/applicationTable/:id", async (req, res) => {
   try {
-    await removeNote(req.params.id);
-    res.render("index", {
-      title: "Express App",
+    await removeNote(req.params.id, req.user.email);
+    res.render("applicationTable", {
+      title: "Таблица заявок",
       notes: await getNotes(),
       userEmail: req.user.email,
       created: false,
@@ -128,8 +150,8 @@ app.delete("/:id", async (req, res) => {
     });
   } catch (error) {
     console.error("Deleted error", e);
-    res.render("index", {
-      title: "Express App",
+    res.render("applicationTable", {
+      title: "Таблица заявок",
       notes: await getNotes(),
       userEmail: req.user.email,
       created: false,
@@ -138,11 +160,20 @@ app.delete("/:id", async (req, res) => {
   }
 });
 
-app.put("/:id", async (req, res) => {
+app.put("/applicationTable/:id", async (req, res) => {
   try {
-    await updateNote({ id: req.params.id, title: req.body.title });
-    res.render("index", {
-      title: "Express App",
+    await updateNote(
+      {
+        id: req.params.id,
+        fio: req.body.fio,
+        numberPhone: req.body.numberPhone,
+        title: req.body.title,
+        email: req.user.email,
+      },
+      req.user.email
+    );
+    res.render("applicationTable", {
+      title: "Таблица заявок",
       notes: await getNotes(),
       userEmail: req.user.email,
       created: true,
@@ -150,8 +181,8 @@ app.put("/:id", async (req, res) => {
     });
   } catch (e) {
     console.error("Creation error", e);
-    res.render("index", {
-      title: "Express App",
+    res.render("applicationTable", {
+      title: "Таблица заявок",
       notes: await getNotes(),
       userEmail: req.user.email,
       created: false,
