@@ -16,60 +16,59 @@
     <title><%= title %></title>
   </head>
   <body>
-      <h1><%= title %></h1>
-      <div class="container">
-        <div class="card">
-<table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Дата</th>
-                <th scope="col">ФИО</th>
-                <th scope="col">Номер телефона</th>
-                <th scope="col">Описание проблемы</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-        <p id="numquastion" class="text-center fs-2">0/0</p>
+    <div style="text-align: center"><h1><%= title %></h1></div>
+    <div class="container">
+      <div class="card">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">
+                Дата
+                <div style="display: inline; margin-left: 50px" id="1">В</div>
+                <div style="display: inline" id="2">У</div>
+              </th>
+              <th scope="col">ФИО</th>
+              <th scope="col">Номер телефона</th>
+              <th scope="col">Описание проблемы</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
       </div>
-      <div
-        style="
-          position: fixed;
-          bottom: 0px;
-          width: 100%;
-          margin-right: auto;
-          margin-left: auto;
-          margin-top: 20px;
-          margin-bottom: 20px;
-          text-align: center;
-        "
+      <p id="numquastion" class="text-center fs-2">0/0</p>
+    </div>
+    <div
+      style="
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+      "
+    >
+      <button
+        id="previouspage"
+        class="btn btn-primary"
+        data-type="previouspage"
       >
-        <button
-          id="previouspage"
-          class="btn btn-primary"
-          data-type="previouspage"
-        >
-          Предыдущая страница
-        </button>
-        <button
-          id="#nextpage"
-          class="btn btn-primary"
-          data-type="#nextpage"
-        >
-          Следующая страница
-        </button>
-        <a
-          href="/"
-          style="display: none"
-          id="finishome"
-          class="btn btn-primary"
-          data-type="finishome"
-        >
-          Заявка
-        </a>
-      </div>  
+        Предыдущая страница
+      </button>
+      <button id="nextpage" class="btn btn-primary" data-type="nextpage">
+        Следующая страница
+      </button>
+      <a
+        href="/"
+        style="display: none"
+        id="finishome"
+        class="btn btn-primary"
+        data-type="finishome"
+      >
+        Заявка
+      </a>
+    </div>
     <script src="/applicationTable.js"></script>
   </body>
 </html>

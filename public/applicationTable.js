@@ -1,9 +1,11 @@
 let appTable;
-let currentPage = 0;
-let allNumPages = 0;
+let currentPage = 1;
+let numRowPage = 4;
+let allNumPages = 1;
 
 const previouspage = document.querySelector("#previouspage");
 const nextpage = document.querySelector("#nextpage");
+const finishome = document.querySelector("#finishome");
 const tbody = document.querySelector("tbody");
 
 window.onload = async function () {
@@ -11,9 +13,8 @@ window.onload = async function () {
   // let response = await fetch(`applicationTable/${idNote}`);
   if (response.ok) {
     appTable = await response.json();
-    // console.log(test);
-    allNumPages = appTable.length;
-
+    // console.log(appTable);
+    allNumPages = Math.round(appTable.length / numRowPage);
     appTable.sort((a, b) => a.date - b.date);
     viewNumPages();
     viewAppTable();
@@ -40,27 +41,31 @@ document.addEventListener("click", (event) => {
 
 function viewAppTable() {
   tbody.innerHTML = "";
-  appTable.forEach((el, index) => {
+  for (
+    let index = (currentPage - 1) * numRowPage;
+    index < currentPage * numRowPage && index < appTable.length;
+    index++
+  ) {
     const newTagTr = document.createElement("tr");
-    const newTagTdCol1 = document.createElement("td")
-     newTagTdCol1.textContent = appTable.date
+    const newTagTdCol1 = document.createElement("td");
+    newTagTdCol1.textContent = appTable[index].date;
     const newTagTdCol2 = document.createElement("td");
-    newTagTdCol2.textContent = appTable.fio
+    newTagTdCol2.textContent = appTable[index].fio;
     const newTagTdCol3 = document.createElement("td");
-    newTagTdCol3.textContent = appTable.numberPhone
+    newTagTdCol3.textContent = appTable[index].numberPhone;
     const newTagTdCol4 = document.createElement("td");
-    newTagTdCol4.textContent = appTable.title
+    newTagTdCol4.textContent = appTable[index].title;
 
-    newTagTr.insertAdjacentElement("beforeend", newTagTd);
+    newTagTr.append(newTagTdCol1, newTagTdCol2, newTagTdCol3, newTagTdCol4);
     tbody.insertAdjacentElement("beforeend", newTagTr);
-  });
+  }
 }
 
 function viewNumPages() {
-  currentPage === 0
+  currentPage === 1
     ? previouspage.setAttribute("disabled", true)
     : previouspage.removeAttribute("disabled");
-  if (currentPage === allNumPages - 1) {
+  if (currentPage === allNumPages) {
     nextpage.style.display = "none";
     finishome.style.display = "inline-block";
   } else {
@@ -69,7 +74,5 @@ function viewNumPages() {
   }
 
   document.querySelector("#numquastion").innerText =
-    String(String(currentPage)) +
-    "/" +
-    String(allNumPages);
+    String(String(currentPage)) + "/" + String(allNumPages);
 }

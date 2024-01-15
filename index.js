@@ -121,7 +121,7 @@ app.post("/", async (req, res) => {
 
 app.get("/applicationTable", async (req, res) => {
   res.render("applicationTable", {
-    title: "Таблица заявок",
+    title: "Заявки с формы",
     // notes: await getNotes(),
   });
 });
@@ -141,7 +141,7 @@ app.delete("/applicationTable/:id", async (req, res) => {
   try {
     await removeNote(req.params.id, req.user.email);
     res.render("applicationTable", {
-      title: "Таблица заявок",
+      title: "Заявки с формы",
       notes: await getNotes(),
       userEmail: req.user.email,
       created: false,
@@ -150,7 +150,7 @@ app.delete("/applicationTable/:id", async (req, res) => {
   } catch (error) {
     console.error("Deleted error", e);
     res.render("applicationTable", {
-      title: "Таблица заявок",
+      title: "Заявки с формы",
       notes: await getNotes(),
       userEmail: req.user.email,
       created: false,
@@ -172,7 +172,7 @@ app.put("/applicationTable/:id", async (req, res) => {
       req.user.email
     );
     res.render("applicationTable", {
-      title: "Таблица заявок",
+      title: "Заявки с формы",
       notes: await getNotes(),
       userEmail: req.user.email,
       created: true,
@@ -181,7 +181,7 @@ app.put("/applicationTable/:id", async (req, res) => {
   } catch (e) {
     console.error("Creation error", e);
     res.render("applicationTable", {
-      title: "Таблица заявок",
+      title: "Заявки с формы",
       notes: await getNotes(),
       userEmail: req.user.email,
       created: false,

@@ -8,9 +8,10 @@ function auth(req, res, next) {
     req.user = { email: verifyResult.email };
     next();
   } catch (e) {
-    req.user = { email: "patient@hospital.mir" };
     if (req.originalUrl.indexOf("/applicationTable") != -1) {
       res.redirect("/login");
+    } else {
+      req.user = { email: "patient@hospital.mir" };
     }
     next();
   }
