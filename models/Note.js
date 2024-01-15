@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const NoteSchema = mongoose.Schema({
+  date: {
+    type: String,
+    required: true,
+  },
   fio: {
     type: String,
     required: true,

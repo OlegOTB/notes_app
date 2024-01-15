@@ -96,6 +96,7 @@ app.get("/", async (req, res) => {
 app.post("/", async (req, res) => {
   try {
     await addNote(
+      Date.now(),
       req.body.fio,
       req.body.numberPhone,
       req.body.title,
@@ -122,8 +123,6 @@ app.get("/applicationTable", async (req, res) => {
   res.render("applicationTable", {
     title: "Таблица заявок",
     // notes: await getNotes(),
-    // created: false,
-    // error: false,
   });
 });
 

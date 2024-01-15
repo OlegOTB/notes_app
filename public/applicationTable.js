@@ -1,132 +1,75 @@
-let test;
-let currentQuastion = 0;
-let allNumQuastion = 0;
+let appTable;
+let currentPage = 0;
+let allNumPages = 0;
 
-const previousquastion = document.querySelector("#previousquastion");
-const nextquastion = document.querySelector("#nextquastion");
-const finishTest = document.querySelector("#finishTest");
+const previouspage = document.querySelector("#previouspage");
+const nextpage = document.querySelector("#nextpage");
+const tbody = document.querySelector("tbody");
 
 window.onload = async function () {
-  const idTest = document.querySelector("idtest").innerText;
-  let response = await fetch(`test/${idTest}`);
+  let response = await fetch(`applicationTable/all`);
+  // let response = await fetch(`applicationTable/${idNote}`);
   if (response.ok) {
-    test = await response.json();
+    appTable = await response.json();
     // console.log(test);
-    allNumQuastion = test.quastionsList.length;
+    allNumPages = appTable.length;
 
-    test.quastionsList.forEach((el) => {
-      el.answer.forEach((el) => {
-        el.cheskAnswer = 0;
-      });
-    });
-    test.quastionsList.forEach((el) => {
-      el.answer.sort((a, b) => a.num - b.num);
-    });
-    test.quastionsList.sort((a, b) => a.num - b.num);
-    viewNumQuastion();
-    viewQuastionAnswer();
+    appTable.sort((a, b) => a.date - b.date);
+    viewNumPages();
+    viewAppTable();
   }
 };
 
 document.addEventListener("click", (event) => {
   const id = event.target.id;
   switch (event.target.dataset.type) {
-    case "checkbox": {
-      test.quastionsList[currentQuastion].answer[id].cheskAnswer = Number(
-        event.target.checked
-      );
+    case "nextpage": {
+      currentPage = currentPage + 1;
+      viewNumPages();
+      viewAppTable();
       break;
     }
-    case "nextquastion": {
-      currentQuastion = currentQuastion + 1;
-      viewNumQuastion();
-      viewQuastionAnswer();
-      break;
-    }
-    case "previousquastion": {
-      currentQuastion = currentQuastion - 1;
-      viewNumQuastion();
-      viewQuastionAnswer();
-      break;
-    }
-    case "finishtest": {
-      let arrayTesting = JSON.parse(localStorage.getItem("resultTesting"));
-      let trueAnswer = 0;
-      let falseAnswer = 0;
-      test.quastionsList.forEach((el) => {
-        let ans = true;
-        let zero = false;
-        el.answer.forEach((el) => {
-          if (el.cheskAnswer != el.chesk) ans = false;
-          if (el.cheskAnswer != 0) zero = true;
-        });
-        if (zero)
-          ans ? (trueAnswer = trueAnswer + 1) : (falseAnswer = falseAnswer + 1);
-      });
-
-      const resultTesting = {
-        dateTesting: Date.now(),
-        num: test.num,
-        version: test.version,
-        numQuastions: allNumQuastion,
-        trueAnswer: trueAnswer,
-        falseAnswer: falseAnswer,
-      };
-      if (arrayTesting === null || arrayTesting === undefined) {
-        arrayTesting = [resultTesting];
-      } else {
-        arrayTesting.push(resultTesting);
-      }
-      localStorage.setItem("resultTesting", JSON.stringify(arrayTesting));
+    case "previouspage": {
+      currentPage = currentPage - 1;
+      viewNumPages();
+      viewAppTable();
       break;
     }
   }
 });
 
-function viewQuastionAnswer() {
-  document.querySelector("#quastion").innerText =
-    test.quastionsList[currentQuastion].title + "?";
+function viewAppTable() {
+  tbody.innerHTML = "";
+  appTable.forEach((el, index) => {
+    const newTagTr = document.createElement("tr");
+    const newTagTdCol1 = document.createElement("td")
+     newTagTdCol1.textContent = appTable.date
+    const newTagTdCol2 = document.createElement("td");
+    newTagTdCol2.textContent = appTable.fio
+    const newTagTdCol3 = document.createElement("td");
+    newTagTdCol3.textContent = appTable.numberPhone
+    const newTagTdCol4 = document.createElement("td");
+    newTagTdCol4.textContent = appTable.title
 
-  const answer = document.querySelector("#answer");
-  answer.innerHTML = "";
-  test.quastionsList[currentQuastion].answer.forEach((el, index) => {
-    const newTagInput = document.createElement("input");
-    newTagInput.className = "form-check-input";
-    newTagInput.type = "checkbox";
-    newTagInput.id = index;
-    newTagInput.setAttribute(`data-type`, "checkbox");
-    if (el.cheskAnswer === 1) newTagInput.setAttribute(`checked`, "checked");
-
-    const newTagLabel = document.createElement("label");
-    newTagLabel.className = "form-check-label";
-    newTagLabel.htmlFor = index;
-    newTagLabel.textContent = el.num + ". " + el.title;
-    newTagLabel.style.marginLeft = "10px";
-
-    const newTagLi = document.createElement("li");
-    newTagLi.className = "list-group-item";
-
-    newTagLi.insertAdjacentElement("beforeend", newTagInput);
-    newTagLi.insertAdjacentElement("beforeend", newTagLabel);
-
-    answer.insertAdjacentElement("beforeend", newTagLi);
+    newTagTr.insertAdjacentElement("beforeend", newTagTd);
+    tbody.insertAdjacentElement("beforeend", newTagTr);
   });
 }
 
-function viewNumQuastion() {
-  currentQuastion === 0
-    ? previousquastion.setAttribute("disabled", true)
-    : previousquastion.removeAttribute("disabled");
-  if (currentQuastion === allNumQuastion - 1) {
-    nextquastion.style.display = "none";
-    finishTest.style.display = "inline-block";
+function viewNumPages() {
+  currentPage === 0
+    ? previouspage.setAttribute("disabled", true)
+    : previouspage.removeAttribute("disabled");
+  if (currentPage === allNumPages - 1) {
+    nextpage.style.display = "none";
+    finishome.style.display = "inline-block";
   } else {
-    nextquastion.style.display = "inline-block";
-    finishTest.style.display = "none";
+    nextpage.style.display = "inline-block";
+    finishome.style.display = "none";
   }
 
   document.querySelector("#numquastion").innerText =
-    String(Number(test.quastionsList[currentQuastion].num)) +
+    String(String(currentPage)) +
     "/" +
-    String(allNumQuastion);
+    String(allNumPages);
 }
