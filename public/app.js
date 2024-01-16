@@ -1,45 +1,49 @@
-document.addEventListener('click', event => {
-  if (event.target.dataset.type === 'remove') {
-    const id = event.target.dataset.id
+const appform = document.querySelector("#appform");
 
-    remove(id).then(() => {
-      event.target.closest('li').remove()
-    })
+appform.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if(!event.target.elements.fio||!event.target.elements.number||!event.target.elements.Phonetitle){
+    const errorDiv = document.querySelector("#errorDiv");
+    errorDiv.textContent = "Заполните все поля";
+    errorDiv.style.display="block";
+  }else {    
+    const infoDiv = document.querySelector("#infoDiv");
+    infoDiv.textContent = "Данные готовы к отправке";
+    infoDiv.style.display="block";
+}
+  let infoErrorSpan = true;
+  const errorSpan = document.querySelector(".error-message-block") || document.createElement("span");
+  if(!errorSpan.className){
+    errorSpan.className = "error-message-block";
+    infoErrorSpan = false;
   }
-
-  if (event.target.dataset.type === 'edit') {
-    const $task = event.target.closest('li')
-    const id = event.target.dataset.id
-    const title = event.target.dataset.title
-    const initialHtml = $task.innerHTML
-
-    $task.innerHTML = `
-      <input type="text" value="${title}">
-      <div>
-        <button class="btn btn-success" data-type="save">Сохранить</button>
-        <button class="btn btn-danger" data-type="cancel">Отменить</button>
-      </div>
-    `
-
-    const taskListener = ({target}) => {
-      if (target.dataset.type === 'cancel') {
-        $task.innerHTML = initialHtml
-        $task.removeEventListener('click', taskListener)
-      }
-      if (target.dataset.type === 'save') {
-        const title = $task.querySelector('input').value
-        update({ title, id }).then(() => {
-          $task.innerHTML = initialHtml
-          $task.querySelector('span').innerText = title
-          $task.querySelector('[data-type=edit]').dataset.title = title
-          $task.removeEventListener('click', taskListener)
-        })
-      }
-    }
-
-    $task.addEventListener('click', taskListener)
+  if(!event.target.elements.taskName.value){
+    errorSpan.innerHTML += `<br>Заполните все поля`;
+    if(!infoErrorSpan)appform.insertAdjacentElement("beforeend", errorSpan);
+    return; 
   }
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 async function update(newNote) {
   await fetch(`/${newNote.id}`, {
