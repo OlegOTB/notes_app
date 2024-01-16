@@ -1,61 +1,37 @@
 const appform = document.querySelector("#appform");
+const errorDiv = document.querySelector("#errorDiv");
+const infoDiv = document.querySelector("#infoDiv");
 
 appform.addEventListener("submit", (event) => {
-  event.preventDefault();
-  if(!event.target.elements.fio||!event.target.elements.number||!event.target.elements.Phonetitle){
-    const errorDiv = document.querySelector("#errorDiv");
+  if (
+    !event.target.elements.fio.value ||
+    !event.target.elements.numberPhone.value ||
+    !event.target.elements.title.value
+  ) {
+    event.preventDefault();
+    infoDiv.style.display = "none";
     errorDiv.textContent = "Заполните все поля";
-    errorDiv.style.display="block";
-  }else {    
-    const infoDiv = document.querySelector("#infoDiv");
-    infoDiv.textContent = "Данные готовы к отправке";
-    infoDiv.style.display="block";
-}
-  let infoErrorSpan = true;
-  const errorSpan = document.querySelector(".error-message-block") || document.createElement("span");
-  if(!errorSpan.className){
-    errorSpan.className = "error-message-block";
-    infoErrorSpan = false;
+    errorDiv.style.display = "block";
+  } else {
+    errorDiv.style.display = "none";
+    infoDiv.textContent = "Идет отправка данных";
+    infoDiv.style.display = "block";
+    event.target.elements.submit.disabled = true;
+    // event.preventDefault();
   }
-  if(!event.target.elements.taskName.value){
-    errorSpan.innerHTML += `<br>Заполните все поля`;
-    if(!infoErrorSpan)appform.insertAdjacentElement("beforeend", errorSpan);
-    return; 
-  }
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+});
 
 async function update(newNote) {
   await fetch(`/${newNote.id}`, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(newNote)
-  })
+    body: JSON.stringify(newNote),
+  });
 }
 
 async function remove(id) {
-  await fetch(`/${id}`, {method: 'DELETE'})
+  await fetch(`/${id}`, { method: "DELETE" });
 }

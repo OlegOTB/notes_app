@@ -16,8 +16,14 @@
     <title><%= title %></title>
   </head>
   <body>
-    <div id = "infoDiv" class="alert alert-success" style=<% if (created) {%>"display: block"<% }else{%>"display: none"<%} %>>Заявка отправлена!</div>
-    <div id = "errorDiv" class="alert alert-danger" style=<% if (error) {%>"display: block"<% }else{%>"display: none"<%} %>>Что то пошло не так, попробуйте позже!</div>
+    <div id="infoDiv" class="alert alert-success" <% if (created) {%>
+      style="display: block"<% }else{%>style="display: none"<%} %>>Заявка
+      отправлена!
+    </div>
+    <div id="errorDiv" class="alert alert-danger" <% if (error) {%>
+      style="display: block"<% }else{%>style="display: none"<%} %>>Что то пошло
+      не так, попробуйте позже!
+    </div>
 
     <div class="container py-5 h-100" style="max-width: 50%">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -25,7 +31,12 @@
           <div class="card card-registration my-4">
             <h2 class="text-center"><%= title %></h2>
 
-            <form action="/" method="post" id="appform" class="card-body p-md-5 text-black">
+            <form
+              action="/"
+              method="post"
+              id="appform"
+              class="card-body p-md-5 text-black"
+            >
               <div class="form-group mb-2">
                 <label class="form-label" for="fio">ФИО</label>
                 <div class="form-outline mb-4">
@@ -61,7 +72,14 @@
                 </div>
               </div>
               <div class="form-outline mb-4 text-center">
-                <button class="btn btn-primary" type="submit">Отправить</button>
+                <button
+                  class="btn btn-primary"
+                  type="submit"
+                  name="submit"
+                  id="submit"
+                >
+                  Отправить
+                </button>
               </div>
             </form>
           </div>

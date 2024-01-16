@@ -1,6 +1,7 @@
 const chalk = require("chalk");
 const User = require("./models/User");
-const bcrypt = require("bcryptjs");
+// const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const { JWT_SECRET } = require("./constants");

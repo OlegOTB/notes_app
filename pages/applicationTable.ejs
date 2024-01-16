@@ -22,14 +22,26 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">
+              <th data-type="date" scope="col">
                 Дата
-                <div style="display: inline; margin-left: 50px" id="1">В</div>
-                <div style="display: inline" id="2">У</div>
+                <div style="display: inline; margin-left: 50px">&uarr;</div>
+                <div style="display: none; margin-left: 50px">&darr;</div>
               </th>
-              <th scope="col">ФИО</th>
-              <th scope="col">Номер телефона</th>
-              <th scope="col">Описание проблемы</th>
+              <th data-type="fio" scope="col">
+                ФИО
+                <div style="display: none; margin-left: 50px">&uarr;</div>
+                <div style="display: none; margin-left: 50px">&darr;</div>
+              </th>
+              <th data-type="numberPhone" scope="col">
+                Номер телефона
+                <div style="display: none; margin-left: 50px">&uarr;</div>
+                <div style="display: none; margin-left: 50px">&darr;</div>
+              </th>
+              <th data-type="title" scope="col">
+                Описание проблемы
+                <div style="display: none; margin-left: 50px">&uarr;</div>
+                <div style="display: none; margin-left: 50px">&darr;</div>
+              </th>
             </tr>
           </thead>
           <tbody></tbody>

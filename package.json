@@ -15,8 +15,9 @@
   "license": "ISC",
   "_comment_mongoose": "^4.3.1",
   "_comment_bcrypt": "^5.1.1",
+  "_comment_bcryptjs": "^2.4.3",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.19.1",
     "chalk": "^4.1.2",
     "cookie-parser": "^1.4.6",
